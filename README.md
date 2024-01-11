@@ -4,6 +4,7 @@ This repo contains mockup code to prove the concept of a service that would rece
 
 The PISA workflow service application could call this service by including the details of the project where this is needed, and then it could fetch the prepared TMs from the `tasks` folder of the repo.
 
-Already existing batch TMs would need to be pruned (or produced again in the manner above -- however the same combination of batch/step/locale might need to be artificially creted). TBD.
+## TODO
 
+Already existing batch TMs would need to be pruned (or produced again in the manner above -- however the same combination of batch/step/locale might need to be artificially creted). TBD.
 
