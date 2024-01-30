@@ -11,15 +11,13 @@
 ROOT="$(pwd)"
 
 # install and compile omegat
-gh repo clone capstanlqc/omegat
-cd omegat
-git checkout releases/5.7.2-capstan
-./gradlew installDist
+[ -d repos/$common_repo ] || gh repo clone capstanlqc/omegat
+cd omegat && git checkout releases/5.7.2-capstan && ./gradlew installDist
 cd $ROOT
 
 # install omegat config files
-gh repo clone capstanlqc/omegat-user-config-dev572 $ROOT/config
-cp $ROOT/config/version_notes.txt $ROOT/config/local_version_notes.txt
+[ -d $ROOT/config ] && cd $ROOT/config && git pull && cd $ROOT
+[ -d $ROOT/config ] || gh repo clone capstanlqc/omegat-user-config-dev572 $ROOT/config
 
 # download/sync common files
 mkdir -p $ROOT/repos
@@ -30,3 +28,6 @@ common_repo="pisa_2025ft_translation_common"
 
 # other requirements
 # java 11
+
+# source venv/bin/activate
+# install dependencies # first time
