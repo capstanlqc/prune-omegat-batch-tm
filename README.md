@@ -1,10 +1,16 @@
-# Create master batch TMs from OmegaT project -- PoC
+# Prune batch TMs in OmegaT projects
 
-This repo contains mockup code to prove the concept of a service that would receive parameters (locale, step, space, or just the URL) of a repo hosting an omegat project and would write a batch TM containing the translations for that batch online to a custom folder (e.g. `tasks`) in the omegat project.
+Scripts to prune batch TMs in OmegaT projects. Here "pruning" means removing entries which do not correspond to a specific batch. A "batch" is a subfolder under the source folder of the project.
 
-The PISA workflow service application could call this service by including the details of the project where this is needed, and then it could fetch the prepared TMs from the `tasks` folder of the repo.
+## Getting started
 
-## TODO
-
-Already existing batch TMs would need to be pruned (or produced again in the manner above -- however the same combination of batch/step/locale might need to be artificially creted). TBD.
+1. Clone this repo in your local machine
+2. Change directory to the root folder of this repo.
+3. Create virtual environment
+4. Install dependencies:
+    - python's requirements (`pip install -r requirements.txt`)
+    - openjdk version "11.0.19" (e.g. Temurin-11.0.19+7), rsync, etc. (check the bash scripts)
+5. Run `bash code/setup.sh` to get the common repo, install omegat and user config files.
+6. Put the names of the omegat projects in file `data/repos.txt`.
+7. Run `bash code/prune_tmx.sh`. This script above will clone the repo of each omegat project, make an offline copy, run the `prune_tmx_content_per_batch.groovy` script on the project and then commit changes and clean up the mess.
 
