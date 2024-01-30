@@ -18,6 +18,8 @@ It is recommended to run the setup script frequently (e.g. every day), in case t
 5. Put the names of the omegat projects in file `data/repos.txt`.
 6. Run `bash code/prune_tmx.sh`. This script above will clone the repo of each omegat project, make an offline copy, run the `prune_tmx_content_per_batch.groovy` script on the project and then commit changes and clean up the mess.
 
+The pruning consists in checking, for each entry in the batch TM, whether the source text exists in the related batch. In that comparison, omegat tags are stripped and space is normalized.
+
 ## Notes
 
 The script `create_batch_tm.sh` is now superseded by script `writeTMX4batch.groovy` which runs in OmegaT upon saving and creates the batch TM in `target/tasks/{batch}.tmx`.
