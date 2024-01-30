@@ -23,3 +23,7 @@ The pruning consists in checking, for each entry in the batch TM, whether the so
 ## Notes
 
 The script `create_batch_tm.sh` is now superseded by script `writeTMX4batch.groovy` which runs in OmegaT upon saving and creates the batch TM in `target/tasks/{batch}.tmx`.
+
+## Credentials
+
+It's possible to configure AWS to avoid having to type credentials in each git action. Info [here](https://github.com/capstanlqc/mk-omegat-team-projs/blob/master/docs/notes.txt).
