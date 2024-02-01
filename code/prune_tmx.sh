@@ -7,6 +7,7 @@
 # run as:
 # bash code/prune_tmx.sh
 
+# @todo: enhancement: make the $ROOT be the parent dir of the script regardless of where the script is run from 
 ROOT="$(pwd)"
 mkdir -p $ROOT/repos
 mkdir -p $ROOT/offline
@@ -31,7 +32,7 @@ do
     repo_url=$domain/$repo_name.git
 
     # clone project repo
-    echo "git clone $repo_url --depth 1 repos/$repo_name"
+    echo "git clone $repo_url --depth 1 $ROOT/repos/$repo_name"
     [ -d $ROOT/repos/$repo_name ] || git clone $repo_url --depth 1 $ROOT/repos/$repo_name
 
     # skip if it's not an omegat project
