@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# requires java 11
+
 # cd to root folder of the repo
 # ROOT is then expected to be /path/to/omegat-project-tm-pruning-service
 # run as:
@@ -30,7 +32,7 @@ do
 
     # clone project repo
     echo "git clone $repo_url --depth 1 repos/$repo_name"
-    [ -d $ROOT/repos/$repo_name ] || git clone $repo_url --depth 1 repos/$repo_name
+    [ -d $ROOT/repos/$repo_name ] || git clone $repo_url --depth 1 $ROOT/repos/$repo_name
 
     # skip if it's not an omegat project
     [ -f repos/$repo_name/omegat.project ] || continue
@@ -57,7 +59,7 @@ do
     cp $common/config/okf_xml@oat.fprm   $ROOT/offline/${repo_name}_OMT/omegat
     cp $common/config/okf_xml@qti.fprm   $ROOT/offline/${repo_name}_OMT/omegat
     cp $common/config/segmentation.conf  $ROOT/offline/${repo_name}_OMT/omegat
-   
+
     # now get source files
     # @todo: point source folder in the project to common/source  ???? so that coping files isn't necessary?
     batches="$(find $ROOT/offline/${repo_name}_OMT/tm/ -type f -regextype egrep -regex '.*/(prev|next)/(01_COS_SCI-A_N|02_COS_SCI-B_N|03_COS_SCI-C_N|04_QQS_N|05_QQA_N|06_COS_LDW_N|07_COS_XYZ_N|07_COS_XYZ_N_linted|07_COS_XYZ_N_tolint|08_CGA_SCI_N|11_COS_MAT-A_T|12_COS_MAT-B_T|13_COS_REA-A_T|14_COS_REA-B_T|15_COS_SCI-A_T|16_COS_SCI-B_T|17_CGA_SCI_T|18_CGA_MAT_T|19_CGA_REA_T|21_COSP_REA-A_T|22_COSP_REA-B_T|23_COSP_MAT-A_T|24_COSP_MAT-B_T|25_COSP_SCI-A_N|26_COSP_SCI-A_T).tmx' -exec basename {} \; | cut -d'.' -f1)"
@@ -66,6 +68,7 @@ do
         # add batch
         cp -r $common/source/$batch $ROOT/offline/${repo_name}_OMT/source
 
+        # create batch master TM
         echo "java -jar $omegat_bin_path/build/install/OmegaT/OmegaT.jar $ROOT/offline/${repo_name}_OMT --mode=console-translate --config-dir=$config_dir_path --script=$config_dir_path/scripts/prune_tmx_content_per_batch.groovy 2>/dev/null" 
         java -jar $omegat_bin_path/build/install/OmegaT/OmegaT.jar $ROOT/offline/${repo_name}_OMT --mode=console-translate --config-dir=$config_dir_path --script=$config_dir_path/scripts/prune_tmx_content_per_batch.groovy # 2>/dev/null
 
