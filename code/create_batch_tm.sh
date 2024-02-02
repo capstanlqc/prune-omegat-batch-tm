@@ -76,7 +76,7 @@ do
     ## done < <( xmlstarlet select -t -c "//mapping[contains(@local, 'source')]" $ROOT/repos/$repo_name/omegat.project | grep -Poh '(?<=local="source/)[^"]+' )
 
     # @todo: point source folder in the project to common/source  ???? so that coping files isn't necessary?
-    batches="$(find $ROOT/offline/${repo_name}_OMT/workflow/ -type f -regextype egrep -regex '.*/(prev|next)/(01_COS_SCI-A_N|02_COS_SCI-B_N|03_COS_SCI-C_N|04_QQS_N|05_QQA_N|06_COS_LDW_N|07_COS_XYZ_N|07_COS_XYZ_N_linted|07_COS_XYZ_N_tolint|08_CGA_SCI_N|11_COS_MAT-A_T|12_COS_MAT-B_T|13_COS_REA-A_T|14_COS_REA-B_T|15_COS_SCI-A_T|16_COS_SCI-B_T|17_CGA_SCI_T|18_CGA_MAT_T|19_CGA_REA_T|21_COSP_REA-A_T|22_COSP_REA-B_T|23_COSP_MAT-A_T|24_COSP_MAT-B_T|25_COSP_SCI-A_N|26_COSP_SCI-A_T).tmx' -exec basename {} \; | cut -d'.' -f1)"
+    batches="$(find $ROOT/offline/${repo_name}_OMT/workflow/ -type f -regextype egrep -regex '.*/(prev|next)/(01_COS_SCI-A_N|02_COS_SCI-B_N|03_COS_SCI-C_N|04_QQS_N|05_QQA_N|06_COS_LDW_N|07_COS_XYZ_N|08_CGA_SCI_N|11_COS_MAT-A_T|12_COS_MAT-B_T|13_COS_REA-A_T|14_COS_REA-B_T|15_COS_SCI-A_T|16_COS_SCI-B_T|17_CGA_SCI_T|18_CGA_MAT_T|19_CGA_REA_T|21_COSP_REA-A_T|22_COSP_REA-B_T|23_COSP_MAT-A_T|24_COSP_MAT-B_T|25_COSP_SCI-A_N|26_COSP_SCI-A_T).tmx' -exec basename {} \; | cut -d'.' -f1)"
     for batch in $batches; 
     do
         # add batch
