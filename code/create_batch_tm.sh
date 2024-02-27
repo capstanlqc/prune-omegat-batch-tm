@@ -69,6 +69,8 @@ prune_tmx () {
 
 for repo_name in $(cat $ROOT/data/repos.txt)
 do
+    echo ""
+	echo "=================================================================================================================================="
     cd $ROOT
     echo ">>> HANDLING $repo_name "
 
@@ -80,8 +82,8 @@ do
     repo_url=$domain/$repo_name.git
 
     # clone project repo
-    echo "git clone $repo_url --depth 1 repos/$repo_name"
-    [ -d $ROOT/repos/$repo_name ] || git clone $repo_url --depth 1 $ROOT/repos/$repo_name
+    echo "git clone --depth 1 $repo_url 1 repos/$repo_name"
+    [ -d $ROOT/repos/$repo_name ] || git clone --depth 1 $repo_url $ROOT/repos/$repo_name
 
     # skip if it's not an omegat project
     [ -f repos/$repo_name/omegat.project ] || continue
@@ -124,7 +126,9 @@ do
 		src_dir=$(dirname $tmx_filepath)
 		tm_dir=$(realpath --relative-to="${ROOT}/offline/${repo_name}_OMT" $src_dir)
 		batch_name=$(basename $tmx_filepath | cut -d'.' -f1)
-		echo Processing $batch_name in $tm_dir...
+		echo ""
+		echo "----------------------------------------------------------------------------------------------------------------------------------"
+		echo "Processing $batch_name in $tm_dir..."
 		
 		# We are pruning the TM's received from the previous or next workflow steps. Batch TMs (found in /tm/auto/prev|next/) in the current locale
 		# should only have segments from the batch they were produced in.
@@ -147,7 +151,9 @@ do
 		src_dir=$(dirname $tmx_filepath)
 		tm_dir=$(realpath --relative-to="${ROOT}/offline/${repo_name}_OMT" $src_dir)
 		batch_name=$(basename $tmx_filepath | cut -d'.' -f1)
-		echo Processing $batch_name in $tm_dir...
+		echo ""
+		echo "----------------------------------------------------------------------------------------------------------------------------------"
+		echo "Processing $batch_name in $tm_dir..."
 		
 		# We are pruning the Workflow TMs - to be on the safe side?
 		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name
