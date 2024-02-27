@@ -146,6 +146,7 @@ do
     ## git commit -m "Pruned TMs in tm/auto"
 
     # Prune /workflow/tm/auto/
+    mkdir -p $ROOT/offline/${repo_name}_OMT/workflow/tm/auto/ # it will be empty if it didn't exist
     workflow_tms="$(find $ROOT/offline/${repo_name}_OMT/workflow/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/[0-9]{2}_[_a-zA-Z-]+_[NT]\.tmx(\.idle)?')"
     for tmx_filepath in $workflow_tms; 
     do
