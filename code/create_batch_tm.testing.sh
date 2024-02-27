@@ -56,8 +56,8 @@ prune_tmx () {
 		fi
 
 		# Copy batch master TM to repo
-		local filename=(*-omegat.tmx)
-		cp $project_root/$filename $project_root/$destination_folder/$batch_tmx_filename
+		local master_tmx_filename=(*-omegat.tmx)
+		cp $project_root/$master_tmx_filename $project_root/$destination_folder/$batch_tmx_filename
 		# @todo (probably): replicate the path where the original batch TM is found under workflow, e.g. 
 		# ${repo_name}/${output_dir}/tm/auto/prev/$batch.tmx
 
