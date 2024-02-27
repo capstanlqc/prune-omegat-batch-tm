@@ -32,14 +32,17 @@ prune_tmx () {
 	local destination_folder=$3
 	local batch_name=$4
 	local repo_name=$5
+
+	batch_tmx_filepath=($project_root/$origin_folder/$batch_name.tmx*) # to match both .tmx and .tmx.idle
+	batch_tmx_filename="$(basename $batch_tmx_filepath)"
 	
-	if ! [ -f $project_root/$destination_folder/$batch_name.tmx.before-prune ]; then
+	if ! [ -f $project_root/$destination_folder/$batch_tmx_filename.before-prune ]; then
 		# add batch
 		cp -r $common/source/$batch_name $project_root/source/$batch_name
 		
 		# Use the batch tm as the working TM of the project.
 		mv $project_root/omegat/project_save.tmx $project_root/omegat/project_save.tmp
-		cp $project_root/$origin_folder/$batch_name.tmx $project_root/omegat/project_save.tmx
+		cp $batch_tmx_filepath $project_root/omegat/project_save.tmx
 
 		# create batch master TM
 		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path
@@ -51,13 +54,13 @@ prune_tmx () {
 		mkdir -p $destination_folder
 
 		# rename destination file if it's the same as source (also a nice way to know what was already pruned)
-		if [ "$origin_folder" = "$destination_folder" ] && [ -f $project_root/$destination_folder/$batch_name.tmx ]; then
-			mv $project_root/$destination_folder/$batch_name.tmx $project_root/$destination_folder/$batch_name.tmx.before-prune
+		if [ "$origin_folder" = "$destination_folder" ] && [ -f $project_root/$destination_folder/$batch_tmx_filename ]; then
+			mv $project_root/$destination_folder/$batch_tmx_filename $project_root/$destination_folder/$batch_tmx_filename.before-prune
 		fi
 
 		# Copy batch master TM to repo
 		local filename=(*-omegat.tmx)
-		cp $project_root/$filename $project_root/$destination_folder/$batch_name.tmx
+		cp $project_root/$filename $project_root/$destination_folder/$batch_tmx_filename
 		# @todo (probably): replicate the path where the original batch TM is found under workflow, e.g. 
 		# ${repo_name}/${output_dir}/tm/auto/prev/$batch.tmx
 
