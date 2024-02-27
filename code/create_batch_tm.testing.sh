@@ -120,6 +120,7 @@ do
     ## done < <( xmlstarlet select -t -c "//mapping[contains(@local, 'source')]" $ROOT/repos/$repo_name/omegat.project | grep -Poh '(?<=local="source/)[^"]+' )
 
     # Prune /tm/auto/
+    mkdir -p $ROOT/offline/${repo_name}_OMT/tm/auto/ # it will be empty if it didn't exist
 	batch_tms="$(find $ROOT/offline/${repo_name}_OMT/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/[0-9]{2}_[_a-zA-Z-]+_[NT]\.tmx(\.idle)?')"
     for tmx_filepath in $batch_tms; 
     do
