@@ -50,6 +50,7 @@ prune_tmx () {
 		mkdir -p $destination_folder
 
 		# rename destination file if it's the same as source (also a nice way to know what was already pruned)
+		# @MS: how could it be that "$origin_folder" = "$destination_folder" are not the same??
 		if [ "$origin_folder" = "$destination_folder" ] && [ -f $project_root/$destination_folder/$batch_name.tmx ]; then
 			mv $project_root/$destination_folder/$batch_name.tmx $project_root/$destination_folder/$batch_name.tmx.before-prune
 		fi
@@ -156,6 +157,7 @@ do
 		echo "Processing $batch_name in $tm_dir..."
 		
 		# We are pruning the Workflow TMs - to be on the safe side?
+		# @MS: because if these TMs under workflow aren't pruned too, they will undo what you did above when they are added to the next (or prev) step
 		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name
 		
 		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
