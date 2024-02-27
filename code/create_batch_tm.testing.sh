@@ -65,7 +65,9 @@ prune_tmx () {
 		# ${repo_name}/${output_dir}/tm/auto/prev/$batch.tmx
 
 		# delete batch folder  before adding the next one
-		yes | rm -r $project_root/source/$batch
+		# yes | rm -r $project_root/source/$batch
+		echo "find $project_root/source/ -mindepth 1 -type d -name $batch_name -exec rm -r {} +"
+		find $project_root/source/ -mindepth 1 -type d -name $batch_name -exec rm -r {} +
 	else
 		echo "Batch $batch_name was already pruned earlier, skipping."
 	fi
