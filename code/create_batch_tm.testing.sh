@@ -47,6 +47,12 @@ prune_tmx () {
 		# create batch master TM (and target files)
 		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path 2>/dev/null
 
+		# copy and reserve the target files for testing / comparing
+		[ "$(echo $origin_folder | cut -d"/" -f1)" = "workflow" ] && suffix="outgoing" || suffix="incoming"
+		target_before_prune="$project_root/target-before-prune-$suffix"
+		mkdir -p $target_before_prune
+		[ -d $target_before_prune/$batch_name ] || cp -r $project_root/target/$batch_name $target_before_prune/$batch_name
+		
 		# Make sure destination folder exists
 		mkdir -p $destination_folder
 
@@ -60,6 +66,11 @@ prune_tmx () {
 		cp $project_root/$master_tmx_filename $project_root/$destination_folder/$batch_tmx_filename
 		# @todo (probably): replicate the path where the original batch TM is found under workflow, e.g. 
 		# ${repo_name}/${output_dir}/tm/auto/prev/$batch.tmx
+
+		# use the pruned batch TM as the working TM of the project
+		cp $project_root/$master_tmx_filename $project_root/omegat/project_save.tmx
+		# create target files again with pruned batch TM
+		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path 2>/dev/null
 
 		# delete batch folder  before adding the next one
 		# yes | rm -r $project_root/source/$batch
