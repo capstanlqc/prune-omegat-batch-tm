@@ -44,8 +44,8 @@ prune_tmx () {
 		mv $project_root/omegat/project_save.tmx $project_root/omegat/project_save.tmp
 		cp $batch_tmx_filepath $project_root/omegat/project_save.tmx
 
-		# create batch master TM
-		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path
+		# create batch master TM (and target files)
+		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path 2>/dev/null
 
 		# Make sure destination folder exists
 		mkdir -p $destination_folder
@@ -133,8 +133,10 @@ do
     # Prune /tm/auto/
     mkdir -p $ROOT/offline/${repo_name}_OMT/tm/auto/ # it will be empty if it didn't exist
 	batch_tms="$(find $ROOT/offline/${repo_name}_OMT/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/[0-9]{2}_[_a-zA-Z-]+_[NT]\.tmx(\.idle)?')"
+    echo "batch_tms: $batch_tms"
     for tmx_filepath in $batch_tms; 
     do
+		echo "tmx_filepath: $tmx_filepath"
 		src_dir=$(dirname $tmx_filepath)
 		tm_dir=$(realpath --relative-to="${ROOT}/offline/${repo_name}_OMT" $src_dir)
 		batch_name=$(basename $tmx_filepath | cut -d'.' -f1)
@@ -144,6 +146,7 @@ do
 		
 		# We are pruning the TM's received from the previous or next workflow steps. Batch TMs (found in /tm/auto/prev|next/) in the current locale
 		# should only have segments from the batch they were produced in.
+		echo "prune_tmx ${ROOT}/offline/${repo_name}_OMT $tm_dir $tm_dir $batch_name $repo_name"
 		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name $repo_name
 		
 		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
@@ -169,6 +172,7 @@ do
 		echo "Processing $batch_name in $tm_dir..."
 		
 		# We are pruning the Workflow TMs - to be on the safe side?
+		echo "prune_tmx ${ROOT}/offline/${repo_name}_OMT $tm_dir $tm_dir $batch_name $repo_name"
 		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name $repo_name
 		
 		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
