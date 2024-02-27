@@ -9,6 +9,7 @@
 
 ROOT="$(pwd)"
 mkdir -p $ROOT/repos
+mkdir -p $ROOT/results
 mkdir -p $ROOT/offline
 common="${common_repo_path:-$ROOT/repos/pisa_2025ft_translation_common}"
 omegat_bin_path="${omegat_bin_path:-$ROOT/omegat/build/install/OmegaT}"
@@ -71,6 +72,10 @@ prune_tmx () {
 		cp $project_root/$master_tmx_filename $project_root/omegat/project_save.tmx
 		# create target files again with pruned batch TM
 		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path 2>/dev/null
+
+		# compare results
+		diff --brief --recursive $target_before_prune/$batch_name $project_root/target/$batch_name >> $ROOT/results/testing_results.txt
+		diff -Naur $target_before_prune/$batch_name $project_root/target/$batch_name >> $ROOT/results/${repo_name}.patch
 
 		# delete batch folder  before adding the next one
 		# yes | rm -r $project_root/source/$batch
