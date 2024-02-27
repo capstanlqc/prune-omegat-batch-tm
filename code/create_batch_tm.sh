@@ -119,21 +119,21 @@ do
 
     # Prune /tm/auto/
 	batch_tms="$(find $ROOT/offline/${repo_name}_OMT/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/([0-9]{2}_[-_a-zA-Z]+_[NT]).tmx')"
-    for tm_filename in $batch_tms; 
+    for tmx_filepath in $batch_tms; 
     do
-		src_dir=$(dirname $tm_filename)
+		src_dir=$(dirname $tmx_filepath)
 		tm_dir=$(realpath --relative-to="${ROOT}/offline/${repo_name}_OMT" $src_dir)
-		batch_name=$(basename $tm_filename | cut -d'.' -f1)
+		batch_name=$(basename $tmx_filepath | cut -d'.' -f1)
 		echo Processing $batch_name in $tm_dir...
 		
 		# We are pruning the TM's received from the previous or next workflow steps. Batch TMs (found in /tm/auto/prev|next/) in the current locale
 		# should only have segments from the batch they were produced in.
 		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name
 		
-		# The result file is $tm_filename (because we are overwriting the offline copy above), now we can copy that into the real repo.
+		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
 		# We're also copying ${batch_name}.tmx.before-prune if present
-		cp $tm_filename $ROOT/repos/$repo_name/$tm_dir
-		cp "${tm_filename}.before-prune" $ROOT/repos/$repo_name/$tm_dir
+		cp $tmx_filepath $ROOT/repos/$repo_name/$tm_dir
+		cp "${tmx_filepath}.before-prune" $ROOT/repos/$repo_name/$tm_dir
     done
 	# Commit
     cd $ROOT/repos/$repo_name
@@ -142,20 +142,20 @@ do
 
     # Prune /workflow/tm/auto/
     workflow_tms="$(find $ROOT/offline/${repo_name}_OMT/workflow/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/([0-9]{2}_[-_a-zA-Z]+_[NT]).tmx')"
-    for tm_filename in $workflow_tms; 
+    for tmx_filepath in $workflow_tms; 
     do
-		src_dir=$(dirname $tm_filename)
+		src_dir=$(dirname $tmx_filepath)
 		tm_dir=$(realpath --relative-to="${ROOT}/offline/${repo_name}_OMT" $src_dir)
-		batch_name=$(basename $tm_filename | cut -d'.' -f1)
+		batch_name=$(basename $tmx_filepath | cut -d'.' -f1)
 		echo Processing $batch_name in $tm_dir...
 		
 		# We are pruning the Workflow TMs - to be on the safe side?
 		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name
 		
-		# The result file is $tm_filename (because we are overwriting the offline copy above), now we can copy that into the real repo.
+		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
 		# We're also copying ${batch_name}.tmx.before-prune if present
-		cp $tm_filename $ROOT/repos/$repo_name/$tm_dir
-		cp "${tm_filename}.before-prune" $ROOT/repos/$repo_name/$tm_dir
+		cp $tmx_filepath $ROOT/repos/$repo_name/$tm_dir
+		cp "${tmx_filepath}.before-prune" $ROOT/repos/$repo_name/$tm_dir
     done
 	# Commit
     cd $ROOT/repos/$repo_name
