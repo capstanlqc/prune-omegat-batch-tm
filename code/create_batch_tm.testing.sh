@@ -35,7 +35,7 @@ prune_tmx () {
 	
 	if ! [ -f $project_root/$destination_folder/$batch_name.tmx.before-prune ]; then
 		# add batch
-		cp -r $common/source/$batch_name $project_root/source
+		cp -r $common/source/$batch_name $project_root/source/$batch_name
 		
 		# Use the batch tm as the working TM of the project.
 		mv $project_root/omegat/project_save.tmx $project_root/omegat/project_save.tmp
