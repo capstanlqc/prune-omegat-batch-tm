@@ -28,7 +28,7 @@ repo_url=$domain/$repo_name.git
 
 prune_tmx () {
     local project_root=$1
-	local source_folder=$2
+	local origin_folder=$2
 	local destination_folder=$3
 	local batch_name=$4
 	
@@ -38,7 +38,7 @@ prune_tmx () {
 		
 		# Use the batch tm as the working TM of the project.
 		mv $project_root/omegat/project_save.tmx $project_root/omegat/project_save.tmp
-		cp $project_root/$source_folder/$batch_name.tmx $project_root/omegat/project_save.tmx
+		cp $project_root/$origin_folder/$batch_name.tmx $project_root/omegat/project_save.tmx
 
 		# create batch master TM
 		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path
@@ -50,7 +50,7 @@ prune_tmx () {
 		mkdir -p $destination_folder
 
 		# rename destination file if it's the same as source (also a nice way to know what was already pruned)
-		if [ "$source_folder" = "$destination_folder" ] && [ -f $project_root/$destination_folder/$batch_name.tmx ]; then
+		if [ "$origin_folder" = "$destination_folder" ] && [ -f $project_root/$destination_folder/$batch_name.tmx ]; then
 			mv $project_root/$destination_folder/$batch_name.tmx $project_root/$destination_folder/$batch_name.tmx.before-prune
 		fi
 
