@@ -31,6 +31,7 @@ prune_tmx () {
 	local origin_folder=$2
 	local destination_folder=$3
 	local batch_name=$4
+	local repo_name=$5
 	
 	if ! [ -f $project_root/$destination_folder/$batch_name.tmx.before-prune ]; then
 		# add batch
@@ -133,7 +134,7 @@ do
 		
 		# We are pruning the TM's received from the previous or next workflow steps. Batch TMs (found in /tm/auto/prev|next/) in the current locale
 		# should only have segments from the batch they were produced in.
-		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name
+		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name $repo_name
 		
 		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
 		# We're also copying ${batch_name}.tmx.before-prune if present
@@ -158,7 +159,7 @@ do
 		echo "Processing $batch_name in $tm_dir..."
 		
 		# We are pruning the Workflow TMs - to be on the safe side?
-		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name
+		prune_tmx "${ROOT}/offline/${repo_name}_OMT" $tm_dir $tm_dir $batch_name $repo_name
 		
 		# The result file is $tmx_filepath (because we are overwriting the offline copy above), now we can copy that into the real repo.
 		# We're also copying ${batch_name}.tmx.before-prune if present
