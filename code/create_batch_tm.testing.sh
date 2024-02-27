@@ -46,9 +46,6 @@ prune_tmx () {
 
 		# create batch master TM
 		java -jar $omegat_bin_path/OmegaT.jar $project_root --mode=console-translate --config-dir=$config_dir_path
-		
-		# Restore working TM
-		mv -f $project_root/omegat/project_save.tmp $project_root/omegat/project_save.tmx
 
 		# Make sure destination folder exists
 		mkdir -p $destination_folder
@@ -68,6 +65,9 @@ prune_tmx () {
 		# yes | rm -r $project_root/source/$batch
 		echo "find $project_root/source/ -mindepth 1 -type d -name $batch_name -exec rm -r {} +"
 		find $project_root/source/ -mindepth 1 -type d -name $batch_name -exec rm -r {} +
+
+		# Restore working TM
+		mv -f $project_root/omegat/project_save.tmp $project_root/omegat/project_save.tmx
 	else
 		echo "Batch $batch_name was already pruned earlier, skipping."
 	fi
