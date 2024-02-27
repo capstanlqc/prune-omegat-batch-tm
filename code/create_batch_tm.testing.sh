@@ -141,8 +141,8 @@ do
     done
 	# Commit
     cd $ROOT/repos/$repo_name
-    git add tm/auto
-    git commit -m "Pruned TMs in tm/auto"
+    ## git add tm/auto
+    ## git commit -m "Pruned TMs in tm/auto"
 
     # Prune /workflow/tm/auto/
     workflow_tms="$(find $ROOT/offline/${repo_name}_OMT/workflow/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/([0-9]{2}_[-_a-zA-Z]+_[NT]).tmx')"
@@ -165,15 +165,15 @@ do
     done
 	# Commit
     cd $ROOT/repos/$repo_name
-    git add workflow/tm/auto
-    git commit -m "Pruned TMs in workflow/tm/auto"
+    ## git add workflow/tm/auto
+    ## git commit -m "Pruned TMs in workflow/tm/auto"
     
     # Push changes (new files)
-    git push
+    ## git push
     
     # clean up the mess
-    yes | rm -r $ROOT/offline/${repo_name}_OMT/
-    yes | rm -r $ROOT/repos/${repo_name}/
+    ## yes | rm -r $ROOT/offline/${repo_name}_OMT/
+    ## yes | rm -r $ROOT/repos/${repo_name}/
 
 done
 # after that, the PISA workflow service can fetch those batch TMs and add them to the next step
