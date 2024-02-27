@@ -102,6 +102,11 @@ do
     mkdir -p $ROOT/offline/${repo_name}_OMT/dictionary/
     mkdir -p $ROOT/offline/${repo_name}_OMT/glossary/
 
+    # flush target files
+	echo "find $ROOT/offline/${repo_name}_OMT/target/ -mindepth 1 -type d -exec rm -r {} +"
+	find $ROOT/offline/${repo_name}_OMT/target/ -mindepth 1 -type d -exec rm -r {} +
+	# or: rm -R -- */
+
     # remove repositories node from the $ROOT/offline copy (make project $ROOT/offline)
     xmlstarlet ed --inplace -d //repositories $ROOT/offline/${repo_name}_OMT/omegat.project
 
