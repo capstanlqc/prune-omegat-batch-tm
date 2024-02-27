@@ -120,7 +120,7 @@ do
     ## done < <( xmlstarlet select -t -c "//mapping[contains(@local, 'source')]" $ROOT/repos/$repo_name/omegat.project | grep -Poh '(?<=local="source/)[^"]+' )
 
     # Prune /tm/auto/
-	batch_tms="$(find $ROOT/offline/${repo_name}_OMT/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/([0-9]{2}_[-_a-zA-Z]+_[NT]).tmx')"
+	batch_tms="$(find $ROOT/offline/${repo_name}_OMT/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/[0-9]{2}_[_a-zA-Z-]+_[NT]\.tmx(\.idle)?')"
     for tmx_filepath in $batch_tms; 
     do
 		src_dir=$(dirname $tmx_filepath)
@@ -145,7 +145,7 @@ do
     ## git commit -m "Pruned TMs in tm/auto"
 
     # Prune /workflow/tm/auto/
-    workflow_tms="$(find $ROOT/offline/${repo_name}_OMT/workflow/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/([0-9]{2}_[-_a-zA-Z]+_[NT]).tmx')"
+    workflow_tms="$(find $ROOT/offline/${repo_name}_OMT/workflow/tm/auto/ -type f -regextype egrep -regex '.*/(prev|next)/[0-9]{2}_[_a-zA-Z-]+_[NT]\.tmx(\.idle)?')"
     for tmx_filepath in $workflow_tms; 
     do
 		src_dir=$(dirname $tmx_filepath)
