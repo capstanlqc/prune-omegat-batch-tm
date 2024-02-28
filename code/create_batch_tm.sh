@@ -34,7 +34,8 @@ prune_tmx () {
 	
 	if ! [ -f $project_root/$destination_folder/$batch_name.tmx.before-prune ]; then
 		# add batch
-		cp -r $common/source/$batch_name $project_root/source
+		find $project_root/source -mindepth 1 -depth -delete
+		cp -r $common/source/$batch_name $project_root/source/$batch_name
 		
 		# Use the batch tm as the working TM of the project.
 		mv $project_root/omegat/project_save.tmx $project_root/omegat/project_save.tmp
@@ -60,9 +61,6 @@ prune_tmx () {
 		cp $project_root/$filename $project_root/$destination_folder/$batch_name.tmx
 		# @todo (probably): replicate the path where the original batch TM is found under workflow, e.g. 
 		# ${repo_name}/${output_dir}/tm/auto/prev/$batch.tmx
-
-		# delete batch folder  before adding the next one
-		yes | rm -r $project_root/source/$batch
 	else
 		echo "Batch $batch_name was already pruned earlier, skipping."
 	fi
