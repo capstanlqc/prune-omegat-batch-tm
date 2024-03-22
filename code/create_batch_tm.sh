@@ -97,7 +97,8 @@ do
     [ -f repos/$repo_name/omegat.project ] || continue
 
     # make $ROOT/offline copy of the repo
-    [ -d $ROOT/offline/${repo_name}_OMT ] || cp -r $ROOT/repos/$repo_name $ROOT/offline/${repo_name}_OMT
+	find $ROOT/offline/${repo_name}_OMT -depth -delete
+    cp -r $ROOT/repos/$repo_name $ROOT/offline/${repo_name}_OMT
 
     # restore missing folders
     mkdir -p $ROOT/offline/${repo_name}_OMT/source/
@@ -121,7 +122,7 @@ do
 	# I'm going to see if we made a backup earlier (in the "offline" backup folder) and copy it back to the
 	# offline project here, so the prune_tmx function can pick it up.
 	if [ -d $tmx_backup_folder/$repo_name ]; then
-		cp -r -u $tmx_backup_folder/$repo_name $ROOT/offline/${repo_name}_OMT
+		cp -r -u $tmx_backup_folder/$repo_name/* $ROOT/offline/${repo_name}_OMT
 	fi
 
     # now get source files
