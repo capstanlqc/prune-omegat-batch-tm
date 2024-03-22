@@ -87,7 +87,8 @@ do
 
     # clone project repo
     echo "git clone --depth 1 $repo_url 1 repos/$repo_name"
-    [ -d $ROOT/repos/$repo_name ] || git clone --depth 1 $repo_url $ROOT/repos/$repo_name
+	find $ROOT/repos/$repo_name -depth -delete
+    git clone --depth 1 $repo_url $ROOT/repos/$repo_name
 
     # if no repo exists (e.g. returned error 403, skip)
     [ -d repos/$repo_name ] || continue
